@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Facture" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8c4af5ca-099a-47c2-bc06-a2617e6bd395">
+	<property name="ireport.zoom" value="1.6500000000000088"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numFac" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="addrDes" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\SAVappli\\src\\savappli\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select B.N_BL, B.Date_BL,F.N_Facture_V,F.Date_Facture,F.Montant_f,F.TVA_V as 'Taux TVA'
+from bonlivraison B, facture F
+where B.N_Facture_V = F.N_Facture_V
+and F.N_Facture_V = $P{numFac}]]>
+	</queryString>
+	<field name="N_BL" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date_BL" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="N_Facture_V" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date_Facture" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Montant_f" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Taux TVA" class="java.lang.Integer"/>
+	<variable name="TTC" class="java.lang.Double">
+		<variableExpression><![CDATA[($F{Taux TVA}*0.01+1)*$F{Montant_f}]]></variableExpression>
+	</variable>
+	<variable name="TVA" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{Taux TVA}*0.01*$F{Montant_f}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="157" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="92" width="182" height="64" uuid="214124bd-3479-4875-a6b7-313400c27431"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[1, rue Maryse Bastié
+93600 Aulnay-Sous-Bois
+FRANCE
+Tel : +33 9 82 32 57 90
+Fax : +33 9 82 42 57 90]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="13" width="344" height="24" backcolor="#E3E3E3" uuid="d9069950-04c0-4bf0-8ef3-28d03017f417"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FACTURE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="338" y="62" width="216" height="57" uuid="60c35c89-1ed9-43f6-938c-d37a8ba6da17"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{addrDes}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="132" height="73" uuid="167f0039-789e-47ad-9b65-7bfe68fd40f3"/>
+				<imageExpression><![CDATA["C:\\DirectionAppli\\src\\directionappli\\logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="105" height="15" uuid="8b7d733d-91f6-4683-855d-0e97b988db3f"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Date : ]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="543" y="0" width="11" height="20" uuid="1cb5091e-5cf4-41f7-9e10-74a768d5cbb7"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="35" width="344" height="15" backcolor="#E3E3E3" uuid="a83d1641-a7a5-4e4d-99f5-745bf6d6f277"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Désignation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="345" y="35" width="70" height="15" backcolor="#E3E3E3" uuid="c484d4f4-6dfb-483b-abac-f9c12e5d73c0"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Quantité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="35" width="70" height="15" backcolor="#E3E3E3" uuid="8382fbd5-b455-4935-9e6a-771a5e09409d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[PU HT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="485" y="35" width="70" height="15" backcolor="#E3E3E3" uuid="cf813e39-5b17-40fb-8f1a-03205f543705"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Montant HT]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="0" width="100" height="15" uuid="0114441d-9f22-40eb-a7d9-550949d71056"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{N_Facture_V}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="105" y="15" width="100" height="15" uuid="9a24e831-3811-4299-98ed-6abafd6b7029"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Date_Facture}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="0" width="80" height="20" uuid="dbb43863-6a0c-45be-b6b0-2bfdd9d7019c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="105" height="15" uuid="baeda353-6483-4391-92de-97b8eb42bab8"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[Numéro de Facture : ]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="101" y="0" width="116" height="12" uuid="de364dd4-b3fd-4cdf-a7ef-559c560a2ef0"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{N_BL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="18" y="0" width="100" height="12" uuid="dc0d6258-b370-4543-8a10-76a110c4e749"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Date_BL}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="13" width="555" height="13" isRemoveLineWhenBlank="true" uuid="4ecdab36-124a-4245-8831-fd2d016170b0"/>
+				<subreportParameter name="numBL">
+					<subreportParameterExpression><![CDATA[$F{N_BL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\DirectionAppli\\src\\directionappli\\Facture_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="26" width="555" height="13" isRemoveLineWhenBlank="true" uuid="697dd961-ec23-4412-af44-60f3de06a002"/>
+				<subreportParameter name="numBL">
+					<subreportParameterExpression><![CDATA[$F{N_BL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\DirectionAppli\\src\\directionappli\\Facture_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="42" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="0" width="554" height="1" uuid="4c8d95b6-e369-4ed1-aeb7-ba07f5b9bbcd"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="485" y="7" width="70" height="15" backcolor="#E3E3E3" uuid="e952bcb3-b163-4a12-aeec-fb53012f9a40"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Net à payer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="7" width="70" height="15" backcolor="#E3E3E3" uuid="f366bdde-ddf1-442b-afde-506a90441497"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[TVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="345" y="7" width="70" height="15" backcolor="#E3E3E3" uuid="beebe5f1-979c-4a7b-900b-d29541493e92"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Total HT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="285" y="7" width="60" height="15" backcolor="#E3E3E3" uuid="86cc0001-99e4-4be0-9e79-711c6f3c8556"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Taux TVA]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="285" y="22" width="60" height="20" uuid="36030513-7edf-40f7-8e63-434d8e415b06"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Taux TVA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="345" y="22" width="70" height="20" uuid="2a945207-2ce8-46ed-9600-4fe3c65de1dc"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+					<paragraph rightIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Montant_f}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="415" y="22" width="70" height="20" uuid="4a81c190-51f3-477e-b4e0-2c74d0fd97fa"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+					<paragraph rightIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TVA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="485" y="22" width="70" height="20" uuid="fce62190-4f49-452c-b4a8-2e01cf78b03d"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+					<paragraph rightIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TTC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="230" y="22" width="55" height="20" uuid="7a2eb52b-fd9e-41f2-8ff5-c8b083b0d616"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[EUR]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="11" width="555" height="13" uuid="8769cf59-434e-4730-9464-80aeec982f5c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[3R Solutions – SARL au capital de 10 000 euros – RCS Bobigny 534 399 340 – APE 4652Z]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="24" width="555" height="10" uuid="a510e31f-9ddd-48bf-a19e-c9b99c473807"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[SIRET 534 399 340 00023 – TVA intracommunautaire FR 74 534399340]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

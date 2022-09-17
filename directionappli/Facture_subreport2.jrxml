@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Facture_subreport2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="18a7f0a1-fde6-42b6-8702-43a7b0e09fac">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numBL" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  MO.Type_MO, MO.prix_mo, count(N_Serie)
+from appareil A,intervention I,materiel M,bonlivraison B, maindoeuvre MO
+where  A.Etat='Réparé'
+AND Id_Panne  in (select Id_panne from panne where type!='SAV')
+AND A.Id_Intervention=I.Id_Intervention
+AND A.Id_Materiel=M.Id_Materiel
+AND A.Id_MO = MO.Id_MO
+AND B.N_BL=A.N_BL
+and MO.prix_mo != 0
+and M.id_materiel = 1
+and B.N_BL = $P{numBL}
+Group by M.Type_Mat,MO.`Type_App`,MO.`Type_MO`]]>
+	</queryString>
+	<field name="Type_MO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prix_mo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="count(N_Serie)" class="java.lang.Long"/>
+	<variable name="montant" class="java.lang.Long">
+		<variableExpression><![CDATA[$F{count(N_Serie)}*$F{prix_mo}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="101" y="0" width="100" height="11" isRemoveLineWhenBlank="true" uuid="8054c202-f717-424e-b13d-9f4eeee6e636"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Type_MO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="0" width="70" height="11" isRemoveLineWhenBlank="true" uuid="776e6a77-1995-4f18-8183-a840a5d5567c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+					<paragraph rightIndent="30"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{count(N_Serie)}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="415" y="0" width="70" height="11" isRemoveLineWhenBlank="true" uuid="46f9989d-1ef9-4b08-ae9f-2f67e5daeecb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+					<paragraph rightIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prix_mo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="485" y="0" width="70" height="11" isRemoveLineWhenBlank="true" uuid="c9199ab7-73f5-4b87-ad4a-113e4c818b9f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+					<paragraph rightIndent="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{montant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
