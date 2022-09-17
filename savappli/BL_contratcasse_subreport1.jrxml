@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BL_contratcasse_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f076f055-37ec-48e6-8e89-6ec33a3cc81f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numBL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select  M.Type_Mat,MO.Type_MO, count(N_Serie)
+from appareil A,intervention I,materiel M,bonlivraison B, maindoeuvre MO
+where  A.Etat='Réparé'
+AND A.Type_App='Telephone'
+AND type_In='Casse'
+AND Id_Panne  in (select Id_panne from panne where type!='SAV')
+AND A.Id_Intervention=I.Id_Intervention
+AND A.Id_Materiel=M.Id_Materiel
+AND A.Id_MO = MO.Id_MO
+AND B.N_BL=A.N_BL
+AND A.N_BL = $P{numBL}
+Group by M.Type_Mat,MO.Type_App,MO.`Type_MO`]]>
+	</queryString>
+	<field name="Type_Mat" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Type_MO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="count(N_Serie)" class="java.lang.Long"/>
+	<variable name="somme" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{count(N_Serie)}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="127" y="0" width="100" height="13" uuid="b39a0476-b59d-414f-bac8-30198de4ea3f"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Type_MO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="0" width="100" height="13" uuid="94d1b41c-87f8-4c17-917c-f85426b8d58c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{count(N_Serie)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="0" width="100" height="13" uuid="c5927239-6b2c-4a6c-bca8-01ef97466b7d"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Type_Mat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="17" y="0" width="512" height="15" backcolor="#F0F0F0" uuid="7c4fa575-59da-4f4e-96f0-0f87ccfe5595"/>
+				<textElement markup="none"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="419" y="0" width="100" height="15" uuid="af83c972-2d9f-4a65-8ff0-37eda08799f9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{somme}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

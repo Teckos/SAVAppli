@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BL_contratcasse_subreport3" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="358625b4-59c6-42ac-8347-a6dedbe21666">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numBL" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select type,count(N_Serie)
+from appareil A,panne P
+where A.id_panne not in (4,6)
+and A.Type_App='téléphone'
+and A.id_panne = P.id_panne
+AND A.Id_Intervention='3'
+AND N_BL=$P{numBL}
+group by P.type]]>
+	</queryString>
+	<field name="type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="count(N_Serie)" class="java.lang.Long"/>
+	<variable name="somme" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{count(N_Serie)}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="27" y="0" width="100" height="20" uuid="c347b9da-6573-4c58-b97c-96e242334042"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEPHONE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="27" y="0" width="100" height="13" uuid="c3486995-fb95-4d9e-a185-fc35351c2f85"/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="0" width="100" height="13" uuid="cb6e9b06-f102-4b65-b5d3-cfa4c3cfa98f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{count(N_Serie)}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="16" y="0" width="240" height="15" backcolor="#F0F0F0" uuid="48d85526-7b9c-48b8-b06d-1092f2531160"/>
+				<textElement markup="none"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="27" y="0" width="219" height="15" uuid="b14c1085-63ed-4844-91ee-138c54810b02"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{somme}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

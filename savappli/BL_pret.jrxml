@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BL_contratcasse" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="e4b94a1d-e6d9-462d-bf85-01d8a3f6e495">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="numBL" class="java.lang.String"/>
+	<parameter name="addrDes" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\SAVappli\\src\\savappli\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select B.N_BL,B.Date_BL, Type_Mat,Type_MO,count(N_Serie)
+from appareil A,bonlivraison B,materiel M,maindoeuvre MO
+where A.Id_Materiel=M.Id_Materiel
+and A.Id_MO = MO.Id_MO
+and A.N_BL = B.N_BL
+and B.N_BL = $P{numBL}
+and Id_Intervention=3]]>
+	</queryString>
+	<field name="N_BL" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date_BL" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Type_Mat" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Type_MO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="count(N_Serie)" class="java.lang.Long"/>
+	<variable name="total" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{count(N_Serie)}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="157" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="132" height="73" uuid="04739023-a76c-402a-84c3-968ee346b31d"/>
+				<imageExpression><![CDATA["C:\\SAVappli\\src\\savappli\\logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="82" width="182" height="64" uuid="21df1da4-446b-44bf-98dc-5d470e418a13"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[1, rue Maryse Bastié
+93600 Aulnay-Sous-Bois
+FRANCE
+Tel : +33 9 82 32 57 90
+Fax : +33 9 82 42 57 90]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="338" y="62" width="216" height="57" uuid="9fa94cec-dee8-46f5-bd5f-02448dd00fd6"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{addrDes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="212" y="15" width="344" height="24" backcolor="#F0F0F0" uuid="764dd8b3-6a0d-4e95-a09b-296650f6a683"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BON DE LIVRAISON]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="100" height="15" uuid="9ec13874-dbc2-4655-9af2-06ac84349976"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Numéro de BL : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="15" width="100" height="15" uuid="e8b3b238-c32e-4281-b331-8df242336f27"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Date : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="101" y="0" width="100" height="15" uuid="41ff2c06-1dda-4575-830c-8d58c643b54f"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{N_BL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="0" width="80" height="20" uuid="9b8dfc4e-d9ba-4476-aaf5-0740a42ee0ce"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="543" y="0" width="11" height="20" uuid="c5d409dc-8f80-4894-89a5-9fc263502eee"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="101" y="15" width="100" height="15" uuid="3f18e0df-5efd-46de-a934-7fb4aeb9b0c1"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Date_BL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="199" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#F0F0F0" uuid="4335a03f-c9e3-4f30-9d32-ce8b3fea9b6c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="2abea533-aa91-456d-ae1b-0cd519d5ddb8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Appareils facturés ]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="1" y="25" width="573" height="20" uuid="6937208d-f70a-4e29-92fa-aca740e53a32"/>
+				<subreportParameter name="numBL">
+					<subreportParameterExpression><![CDATA[$F{N_BL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "BL_pret_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="55" width="573" height="20" uuid="c0058ba2-4a9b-42e9-bbf8-7591e95fbce2"/>
+				<subreportParameter name="numBL">
+					<subreportParameterExpression><![CDATA[$F{N_BL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "BL_pret_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="1" y="126" width="268" height="38" uuid="7c00ff5a-603f-43e4-a3ee-a30324ac0073"/>
+				<subreportParameter name="numBL">
+					<subreportParameterExpression><![CDATA[$F{N_BL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "BL_pret_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="126" width="573" height="20" uuid="62c34f96-a685-44bf-ac56-6d3a75358cdd"/>
+				<subreportParameter name="numBL">
+					<subreportParameterExpression><![CDATA[$F{N_BL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "BL_pret_subreport4.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement positionType="Float" x="-1" y="95" width="555" height="20" backcolor="#F0F0F0" uuid="67861bc0-58d1-4a84-826d-b4324e9d19a7"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="95" width="555" height="20" uuid="26e41fc6-d526-44ed-ae16-79a0cd936dad"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Appareils non facturés ]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="25" backcolor="#F0F0F0" uuid="af7c1298-680f-44cf-a7cc-8e6a107295a2"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="555" height="25" backcolor="#FFFFFF" uuid="9e0f0516-fae0-4d40-a4c5-e883355d97f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Total appareils livrés]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="511" y="0" width="44" height="25" uuid="2b500203-4bca-4a42-b479-a3dc185519a4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="555" height="13" uuid="3114805d-2674-4ed1-99aa-0429a4fe2b2d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[3R Solutions – SARL au capital de 10 000 euros – RCS Bobigny 534 399 340 – APE 4652Z]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="555" height="19" uuid="a43be5ea-b4be-4d2c-a2d9-bce09b1e9cb6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[SIRET 534 399 340 00023 – TVA intracommunautaire FR 74 534399340]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
